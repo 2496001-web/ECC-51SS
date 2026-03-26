@@ -1,0 +1,8 @@
+/*날짜 연산*/
+CURRENT_TIMESTAMP CURRENT_DATE INTERNAL;
+
+/*날짜 서식*/
+TO_DATE('2014/01/24', YYYY/MM/DD);
+
+/*날짜의 덧셈과 뺄셈 - MySQL*/
+DATEDIFF('2014-02-28', '2014-01-01')
