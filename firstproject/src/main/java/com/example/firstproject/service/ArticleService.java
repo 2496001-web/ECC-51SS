@@ -6,6 +6,7 @@ import com.example.firstproject.repository.ArticleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +43,12 @@ public class ArticleService {
         // 3. 잘못된 요청 처리하기
         if (target == null || id != target.getId()) { // 잘못된 요청인지 판별
             log.info("잘못된 요청! id: {}, article: {}", id, article.toString());
-            return null;
+            return null; // 응답은 컨트롤러가 하므로 여기서는 null 반환
         }
         // 4. 업데이트 및 정상 응답(200)하기
         target.patch(article);
         Article updated = articleRepository.save(target); // article 엔티티 DB에 저장
-        return null;
+        return updated; // 응답은 컨트롤러가 하므로 여기서는 수정 데이터만 반환
     }
 
     public Article delete(Long id) {
@@ -62,6 +63,7 @@ public class ArticleService {
         return target; // DB에서 삭제한 대상을 컨트롤러에 반환
     }
 
+    @Transactional
     public List<Article> createArticles(List<ArticleForm> dtos) {
         // 1. dto 묶음을 엔티티 묶음으로 변환하기
         List<Article> articleList = dtos.stream()
