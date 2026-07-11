@@ -31,9 +31,9 @@ public class CommentService {
             dtos.add(dto); // 변환한 DTO를 dtos 리스트에 삽입
         }*/
         // 3. 결과 반환
-        return commentRepository.findByArticleId(articleId) // 댓글 엔티티 목록 조회
+        return commentRepository.findByArticleId(articleId) // 스트림 데이터를 리스트 자료형으로 변환
                 .stream() // 댓글 엔티티 목록을 스트림으로 변환
-                .map(comment -> CommentDto.createCommentDto(comment)) // 엔티티를 DTO로 매핑
+                .map(comment -> CommentDto.createCommentDto(comment)) // 엔티티틀 DTO로 매핑
                 .collect(Collectors.toList()); // 스트림을 리스트로 변환
     }
 
@@ -50,6 +50,7 @@ public class CommentService {
         return CommentDto.createCommentDto(created);
     }
 
+    @Transactional
     public CommentDto update(Long id, CommentDto dto) {
         // 1. 댓글 조회 및 예외 발생
         Comment target = commentRepository.findById(id) // 수정할 댓글 가져오기
@@ -63,6 +64,7 @@ public class CommentService {
         return CommentDto.createCommentDto(updated);
     }
 
+    @Transactional
     public CommentDto delete(Long id) {
         // 1. 댓글 조회 및 예외 발생
         Comment target = commentRepository.findById(id) // 삭제할 댓글 가져오기
